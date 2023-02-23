@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using kino.Data;
+using kino.Services;
 
 #nullable disable
 
 namespace kino.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230222141516_BasicModelsContext")]
-    partial class BasicModelsContext
+    [Migration("20230223120600_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace kino.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Models.Movie", b =>
+            modelBuilder.Entity("kino.Entities.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace kino.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Models.Reservation", b =>
+            modelBuilder.Entity("kino.Entities.Reservation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace kino.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("Models.User", b =>
+            modelBuilder.Entity("kino.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace kino.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Models.Viewing", b =>
+            modelBuilder.Entity("kino.Entities.Viewing", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

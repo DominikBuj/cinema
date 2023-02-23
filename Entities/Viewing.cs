@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+namespace kino.Entities;
 
-namespace Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Viewing
 {

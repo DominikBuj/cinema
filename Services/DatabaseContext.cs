@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using Models;
+namespace kino.Services;
 
-namespace kino.Data;
+using kino.Entities;
+using Microsoft.EntityFrameworkCore;
 
 public class DatabaseContext : DbContext
 {

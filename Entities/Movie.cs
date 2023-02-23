@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+namespace kino.Entities;
 
-namespace Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Movie
 {
@@ -8,9 +8,7 @@ public class Movie
     public int Id { get; set; }
     [Required]
     public string Name { get; set; }
-    [Required]
     public string Description { get; set; }
-    [Required]
     public string PosterUrl { get; set; }
     [Required]
     public TimeSpan Duration { get; set; }

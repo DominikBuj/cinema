@@ -1,7 +1,8 @@
+namespace kino.Entities;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Models;
+using System.Text.Json.Serialization;
 
 public class User
 {
@@ -13,15 +14,14 @@ public class User
 
     [Key]
     public int Id { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
     [Required]
     public string Email { get; set; }
     [Required]
+    [JsonIgnore]
     public string PasswordHash { get; set; }
     [Required]
     [Column(TypeName = "varchar(32)")]
     public UserRole Role { get; set; }
-    [Required]
-    public string Name { get; set; }
-    [Required]
-    public string Surname { get; set; }
 }

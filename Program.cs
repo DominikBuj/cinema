@@ -1,4 +1,5 @@
-using kino.Data;
+using System.Text.Json.Serialization;
+using kino.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=SuperUser1!;"));
-builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -21,7 +25,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

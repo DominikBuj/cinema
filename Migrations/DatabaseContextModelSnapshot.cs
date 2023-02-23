@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using kino.Data;
+using kino.Services;
 
 #nullable disable
 
@@ -23,7 +23,7 @@ namespace kino.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Models.Movie", b =>
+            modelBuilder.Entity("kino.Entities.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace kino.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Models.Reservation", b =>
+            modelBuilder.Entity("kino.Entities.Reservation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace kino.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("Models.User", b =>
+            modelBuilder.Entity("kino.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace kino.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Models.Viewing", b =>
+            modelBuilder.Entity("kino.Entities.Viewing", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

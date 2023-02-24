@@ -1,0 +1,29 @@
+<form class="container d-flex flex-column gap-2" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="surname">Surname</label>
+        <input id="surname" type="text" formControlName="surname" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" class="form-control text-muted" [value]="user?.email" disabled>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" class="form-control">
+    </div>
+    <div class="form-group d-grid mt-2">
+        <button type="submit" class="btn btn-primary">Update profile</button>
+    </div>
+    <ng-container *ngIf="submitted">
+        <div *ngIf="succeeded; else failed" class="alert alert-success mt-2" role="alert">
+            Updating user succeeded
+        </div>
+        <ng-template #failed><div class="alert alert-danger mt-2" role="alert">
+            Updating user failed
+        </div></ng-template>
+    </ng-container>
+</form>

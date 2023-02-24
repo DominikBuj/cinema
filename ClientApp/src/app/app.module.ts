@@ -1,17 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { ViewingsComponent } from './viewings/viewings.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { UserService } from './services/user.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { ViewingsComponent } from './components/viewings/viewings.component';
 
 @NgModule({
   declarations: [
@@ -22,20 +26,25 @@ import { ViewingsComponent } from './viewings/viewings.component';
     FetchDataComponent,
     SignUpComponent,
     SignInComponent,
-    ViewingsComponent
+    ViewingsComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: ViewingsComponent, pathMatch: 'full' },
       { path: 'viewings', component: ViewingsComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
-    ])
+      { path: 'profile', component: ProfileComponent },
+    ]),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [UserService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

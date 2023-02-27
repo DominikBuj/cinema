@@ -11,5 +11,7 @@ public class Movie
     public string Description { get; set; }
     public string PosterUrl { get; set; }
     [Required]
-    public TimeSpan Duration { get; set; }
+    public int DurationHours { get; set; }
+    [Required]
+    public int DurationMinutes { get; set; }
 }

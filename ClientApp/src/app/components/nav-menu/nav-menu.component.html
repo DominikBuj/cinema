@@ -5,6 +5,11 @@
       <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['/viewings']">Viewings</a>
       </li>
+      <div *ngIf="!!user && user.role === 'Admin'">
+        <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" [routerLink]="['/movies']">Movies</a>
+        </li>
+      </div>
     </ul>
     <div class="flex-fill"></div>
     <div *ngIf="!!user; else notSignedIn">

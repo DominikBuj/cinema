@@ -13,8 +13,8 @@ using kino.Services;
 namespace kino.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230223120600_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20230227132856_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,8 +38,11 @@ namespace kino.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("interval");
+                    b.Property<int>("DurationHours")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()

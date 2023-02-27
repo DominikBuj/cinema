@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Viewing } from 'src/app/models/viewing.model';
+import { ViewingService } from 'src/app/services/viewing.service';
 
 @Component({
   selector: 'app-viewings',
   templateUrl: './viewings.component.html',
-  styleUrls: ['./viewings.component.css']
+  styleUrls: ['./viewings.component.css'],
 })
 export class ViewingsComponent implements OnInit {
+  viewings$?: Observable<Viewing[]>;
 
-  constructor() { }
+  constructor(public viewingService: ViewingService) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

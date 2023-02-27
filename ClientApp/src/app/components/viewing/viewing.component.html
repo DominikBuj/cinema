@@ -1,0 +1,20 @@
+<form class="container d-flex flex-column gap-2" [formGroup]="viewingForm" (ngSubmit)="onSubmit()">
+    <!-- <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && form.name.errors }">
+        <div class="invalid-feedback">
+            <div *ngIf="form.name.errors?.required">Name is required</div>
+        </div>
+    </div> -->
+    <div class="form-group row">
+        <mat-form-field appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="form-group d-grid mt-2">
+        <button type="submit" class="btn btn-primary">{{!!this.id ? 'Modify' : 'Add'}}</button>
+    </div>
+</form>

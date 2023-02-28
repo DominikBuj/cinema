@@ -14,4 +14,5 @@ public class Movie
     public int DurationHours { get; set; }
     [Required]
     public int DurationMinutes { get; set; }
+    public List<Viewing>? Viewings { get; set; }
 }

@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ViewingsComponent } from './components/viewings/viewings.component';
@@ -48,6 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatSnackBarModule,
     MatInputModule,
+    MatStepperModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: ViewingsComponent, pathMatch: 'full' },
@@ -58,7 +60,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       { path: 'movie/:id', component: MovieComponent },
       { path: 'viewings', component: ViewingsComponent },
       { path: 'viewing/:id', component: ViewingComponent },
-      { path: 'reservation/:id', component: ReservationComponent },
+      { path: 'reservation/:movieId', component: ReservationComponent },
     ]),
   ],
   providers: [UserService, MovieService, ViewingService, ReservationService],

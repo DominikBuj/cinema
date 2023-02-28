@@ -23,12 +23,17 @@ public class MovieService : IMovieService
 
     public async Task<IEnumerable<Movie>> GetMovies()
     {
-        return await _context.Movies.ToListAsync();
+        List<Movie> movies = await _context.Movies.ToListAsync();
+        movies.ForEach(movie => movie.Viewings = _context.Viewings.Where(viewing => viewing.MovieId == movie.Id).ToList());
+        return movies;
     }
 
     public async Task<Movie> GetMovieById(int id)
     {
-        return await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
+        Movie movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
+        if (movie == null) return null;
+        movie.Viewings = _context.Viewings.Where(viewing => viewing.MovieId == movie.Id).ToList();
+        return movie;
     }
 
     public async Task<Movie> AddMovie(Movie movie)

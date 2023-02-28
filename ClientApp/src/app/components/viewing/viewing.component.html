@@ -1,11 +1,11 @@
 <form class="container d-flex flex-column gap-2 mt-5" style="max-width: 640px;" [formGroup]="viewingForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <label for="movie">Movie</label>
-        <select class="form-select" id="movie" formControlName="movie" [ngClass]="{ 'is-invalid': submitted && form.movie.errors }">
-            <option *ngFor="let movie of this.movies$ | async" [value]="movie.id">{{movie.name}}</option>
+        <label for="movieId">Movie</label>
+        <select class="form-select" id="movieId" formControlName="movieId" [ngClass]="{ 'is-invalid': submitted && form.movieId.errors }">
+            <option *ngFor="let movie of this.movies$ | async" [value]="movie.id">{{movie.name}}, {{movie.durationHours}} Hours {{movie.durationMinutes}} Minutes</option>
         </select>
         <div class="invalid-feedback">
-            <div *ngIf="form.movie.errors?.required">Movie is required</div>
+            <div *ngIf="form.movieId.errors?.required">Movie is required</div>
         </div>
     </div>
     <div class="form-group">

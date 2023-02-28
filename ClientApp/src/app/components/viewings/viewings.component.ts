@@ -13,5 +13,11 @@ export class ViewingsComponent implements OnInit {
 
   constructor(public viewingService: ViewingService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.viewings$ = this.viewingService.getViewings();
+  }
+
+  deleteViewing(id: number): void {
+    this.viewingService.deleteViewing(id).subscribe(() => this.viewings$ = this.viewingService.getViewings());
+  }
 }

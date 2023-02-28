@@ -40,7 +40,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Movie>> DeleteMovieById(int id)
+    public async Task<ActionResult<bool>> DeleteMovieById(int id)
     {
         bool success = await _movieService.DeleteMovieById(id);
         if (!success) return NotFound();

@@ -57,7 +57,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     if (!!this.id) movie.id = this.id;
     this.movieService.addMovie(movie).subscribe({
       next: () => this.router.navigate(['/movies']),
-      error: (error) => console.log('error'),
+      error: (error) => console.log(error),
     });
   }
 }

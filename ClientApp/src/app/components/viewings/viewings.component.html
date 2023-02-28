@@ -1,15 +1,15 @@
 <div class="container my-3 d-flex justify-content-center align-items-center"><a class="btn btn-primary" [routerLink]="['/viewing', null]">Add Viewing</a></div>
 <div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
-    <!-- <div *ngFor="let movie of movies$ | async" class="card">
-        <img class="card-img-top" [src]="movie.posterUrl" alt="movie poster image" width="300" height="300">
+    <div *ngFor="let viewing of this.viewings$ | async" class="card">
+        <img class="card-img-top" [src]="viewing.movie.posterUrl" alt="movie poster image" width="300" height="300">
         <div class="card-body">
-            <h4 class="card-title">{{movie.name}}</h4>
-            <h6 class="card-title">{{movie.durationHours}} Hours {{movie.durationMinutes}} Minutes</h6>
-            <p class="card-text">{{movie.description}}</p>
+            <h4 class="card-title">{{viewing.movie.name}}</h4>
+            <h6 class="card-title">{{viewing.date | date:'longDate'}}</h6>
+            <h6 class="card-title">{{viewing.startTime}} - {{viewing.endTime}}</h6>
+            <div class="d-flex gap-2 mt-3">
+                <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id]">Modify</a>
+                <button class="btn btn-primary flex-fill" (click)="deleteViewing(viewing.id)">Delete</button>
+            </div>
         </div>
-        <div class="card-body d-flex gap-2">
-            <a href="#" class="btn btn-primary" [routerLink]="['/movie', movie.id]">Modify</a>
-            <button class="btn btn-primary" (click)="deleteMovie(movie.id)">Delete</button>
-        </div>
-    </div> -->
+    </div>
 </div>

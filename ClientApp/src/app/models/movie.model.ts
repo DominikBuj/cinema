@@ -1,3 +1,5 @@
+import { Viewing } from "./viewing.model";
+
 export interface Movie {
     id: number;
     name: string;
@@ -5,4 +7,5 @@ export interface Movie {
     posterUrl: string;
     durationHours: number;
     durationMinutes: number;
+    viewings: Viewing[];
 }

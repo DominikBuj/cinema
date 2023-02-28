@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Movie } from 'src/app/models/movie.model';
 import { Viewing } from 'src/app/models/viewing.model';
+import { MovieService } from 'src/app/services/movie.service';
 import { ViewingService } from 'src/app/services/viewing.service';
 
 @Component({
@@ -11,6 +13,7 @@ import { ViewingService } from 'src/app/services/viewing.service';
   styleUrls: ['./viewing.component.css']
 })
 export class ViewingComponent implements OnInit {
+  movies$?: Observable<Movie[]>;
   routeSubscription!: Subscription;
   id: number | null = null;
   viewingForm!: FormGroup;
@@ -20,12 +23,18 @@ export class ViewingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private viewingservice: ViewingService,
+    private movieService: MovieService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.viewingForm = this.formBuilder.group({
+      movie: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      startTime: ['', [Validators.required]],
+      endTime: ['', [Validators.required]],
     });
+    this.movies$ = this.movieService.getMovies();
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.id = +params['id'];
       // if (!!this.id)
@@ -43,9 +52,30 @@ export class ViewingComponent implements OnInit {
     return this.viewingForm.controls;
   }
 
+  get today(): string {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  get startTimes(): string[] {
+    const hours: string[] = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17'];
+    const minutes: string[] = ['00', '15', '30', '45'];
+    let startTimes: string[] = [];
+    hours.forEach(hour => {
+      minutes.forEach(minute => {
+        startTimes.push(hour + ':' + minute);
+      })
+    });
+    return startTimes;
+  }
+
+  setEndTime(startTime: string): void {
+    this.form.endTime.setValue('');
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.viewingForm.invalid) return;
+    console.log(this.viewingForm.getRawValue());
     const viewing: Viewing = this.viewingForm.getRawValue();
     // if (!!this.id) movie.id = this.id;
     // this.movieService.addMovie(movie).subscribe({

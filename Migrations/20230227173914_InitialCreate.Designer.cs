@@ -13,7 +13,7 @@ using kino.Services;
 namespace kino.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230227132856_InitialCreate")]
+    [Migration("20230227173914_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

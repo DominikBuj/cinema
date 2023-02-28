@@ -47,14 +47,11 @@ public class UserService : IUserService
     public async Task<User> SignUp(SignUpRequest signUpRequest)
     {
         if (_context.Users.Any(user => user.Email == signUpRequest.Email)) return null;
-        
         User user = _mapper.Map<User>(signUpRequest);
         user.PasswordHash = BCrypt.HashPassword(signUpRequest.Password);
         user.Role = User.UserRole.User;
-
         EntityEntry<User> _user = await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
-
         return _user.Entity;
     }
 
@@ -62,14 +59,11 @@ public class UserService : IUserService
     {
         User user = await GetUserById(id);
         if (user == null) return null;
-        
         _mapper.Map(updateUserRequest, user);
         if (!string.IsNullOrEmpty(updateUserRequest.Password))
             user.PasswordHash = BCrypt.HashPassword(updateUserRequest.Password);
-
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
-
         return user;
     }
 }

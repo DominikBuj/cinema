@@ -23,6 +23,7 @@ import { ReservationComponent } from './components/reservation/reservation.compo
 import { ViewingService } from './services/viewing.service';
 import { ReservationService } from './services/reservation.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatInputModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([

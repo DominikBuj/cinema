@@ -14,15 +14,25 @@
         <label for="posterUrl">Poster URL</label>
         <input id="posterUrl" type="url" formControlName="posterUrl" class="form-control">
     </div>
-    <div class="d-flex gap-3 mt-2">
-        <label for="durationHours" style="line-height: 2rem;">Hours</label>
-        <select class="form-select" id="durationHours" formControlName="durationHours" [ngClass]="{ 'is-invalid': submitted && form.durationHours.errors }">
-            <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
-        </select>
-        <label for="durationMinutes" style="line-height: 2rem;">Minutes</label>
-        <select class="form-select" id="durationMinutes" formControlName="durationMinutes" [ngClass]="{ 'is-invalid': submitted && form.durationMinutes.errors }">
-            <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
-        </select>
+    <div class="d-flex gap-3">
+        <div class="form-group flex-fill">
+            <label for="durationHours">Hours</label>
+            <select class="form-select" id="durationHours" formControlName="durationHours" [ngClass]="{ 'is-invalid': submitted && form.durationHours.errors }">
+                <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="invalid-feedback">
+                <div *ngIf="form.durationHours.errors?.required">Hours is required</div>
+            </div>
+        </div>
+        <div class="form-group flex-fill">
+            <label for="durationMinutes">Minutes</label>
+            <select class="form-select" id="durationMinutes" formControlName="durationMinutes" [ngClass]="{ 'is-invalid': submitted && form.durationMinutes.errors }">
+                <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
+            </select>
+            <div class="invalid-feedback">
+                <div *ngIf="form.durationHours.errors?.required">Hours is required</div>
+            </div>
+        </div>
     </div>
     <div class="form-group d-grid mt-2">
         <button type="submit" class="btn btn-primary">{{!!this.id ? 'Modify' : 'Add'}}</button>

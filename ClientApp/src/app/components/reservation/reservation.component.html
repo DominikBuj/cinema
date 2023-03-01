@@ -1,32 +1,67 @@
 <mat-stepper style="height: 95%;" linear #stepper>
-    <!-- <mat-step [stepControl]="viewingForm" label="Viewing">
+    <mat-step [stepControl]="viewingForm" label="Viewing">
         <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="viewingForm">
             <div class="form-group">
                 <label for="movieId">Movie</label>
                 <input id="movieId" type="hidden" formControlName="movieId" class="form-control"/>
-                <input type="text" class="form-control text-faded" [value]="movie?.name" disabled/>
+                <input type="text" class="form-control text-muted" [value]="movie?.name" disabled/>
             </div>
             <div class="form-group">
-                <label for="date">Date</label>
-                <select class="form-select" id="date" formControlName="date" (change)="updatePossibleViewings()">
+                <label for="viewingDate">Date</label>
+                <select class="form-select" id="viewingDate" formControlName="viewingDate" (change)="selectViewingDate()">
                     <option *ngFor="let date of possibleDates" [value]="date">{{date | date:'longDate'}}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="viewingId">Viewing</label>
-                <select class="form-select" id="viewingId" formControlName="viewingId">
+                <label for="viewingId">Start Time</label>
+                <select class="form-select" id="viewingId" formControlName="viewingId" (change)="selectViewing()">
                     <option *ngFor="let viewing of possibleViewings" [value]="viewing.id">{{viewing.startTime}}</option>
                 </select>
             </div>
         </form>
-    </mat-step> -->
-    <mat-step label="Seats">
-        <div class="d-grid gap-2" style="grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(8, 1fr);">
-            <button type="button" *ngFor="let seat of seats; let i = index" class="btn" [attr.aria-pressed]="!!seat.selected"
-            [ngClass]="[seats[i].reserved ? 'btn-outline-danger' : 'btn-outline-success', seats[i].selected ? 'active' : '']" (click)="reserveSeat(i)">{{i + 1}}</button>
-        </div>
     </mat-step>
-    <mat-step label="Summary">
-
+    <mat-step [stepControl]="seatsForm" label="Seats">
+        <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="seatsForm">
+            <div class="d-grid gap-2 mb-4" style="grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(5, 1fr);">
+                <button type="button" *ngFor="let seat of seats; let i = index" class="btn" [attr.aria-pressed]="!!seat.selected"
+                [ngClass]="[seats[i].reserved ? 'btn-outline-danger' : 'btn-outline-success', seats[i].selected ? 'active' : '']"
+                (click)="selectSeat(i)">{{i + 1}}</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-danger">Seat Number</button>
+                <span class="mx-2">Taken</span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-success">Seat Number</button>
+                <span class="mx-2">Available</span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-success active">Seat Number</button>
+                <span class="mx-2">Selected</span>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="reservationForm" label="Summary">
+        <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="movie">Movie</label>
+                <input id="movie" type="text" class="form-control text-muted" [value]="movie?.name" disabled/>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input id="date" type="text" class="form-control text-muted" [value]="viewing?.date | date:'longDate'" disabled/>
+            </div>
+            <div class="form-group">
+                <label for="startTime">Start Time</label>
+                <input id="startTime" type="text" class="form-control text-muted" [value]="viewing?.startTime" disabled/>
+            </div>
+            <div class="form-group">
+                <label for="seats">Seats</label>
+                <input id="seats" type="text" class="form-control text-muted" [value]="selectedSeats" disabled/>
+            </div>
+            <div class="form-group d-grid mt-2">
+                <button type="submit" class="btn btn-primary">Reserve</button>
+            </div>
+        </form>
     </mat-step>
 </mat-stepper>

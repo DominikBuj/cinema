@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Movie } from 'src/app/models/movie.model';
+import { User } from 'src/app/models/user.model';
 import { Viewing } from 'src/app/models/viewing.model';
 import { MovieService } from 'src/app/services/movie.service';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { UserService } from 'src/app/services/user.service';
+import { ViewingService } from 'src/app/services/viewing.service';
 
 @Component({
   selector: 'app-reservation',
@@ -13,38 +17,49 @@ import { MovieService } from 'src/app/services/movie.service';
 })
 export class ReservationComponent implements OnInit {
   routeSubscription!: Subscription;
+  user: User | null = null;
   movie?: Movie;
+  viewing?: Viewing;
+  selectedSeats: string = '';
   possibleDates: string[] = [];
-  possibleViewings?: Viewing[] = [];
-  seats: any[] = [...Array(80)].map(() => {
+  possibleViewings: Viewing[] = [];
+  seats: any[] = [...Array(30)].map(() => {
     return {
       reserved: false,
-      selected: false
-    }
+      selected: false,
+    };
   });
   viewingForm!: FormGroup;
   seatsForm!: FormGroup;
   reservationForm!: FormGroup;
-  submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private userService: UserService,
+    private reservationService: ReservationService,
+    private viewingService: ViewingService
   ) {}
 
   ngOnInit(): void {
     this.viewingForm = this.formBuilder.group({
       movieId: ['', [Validators.required]],
-      date: ['', [Validators.required]],
+      viewingDate: ['', [Validators.required]],
       viewingId: ['', [Validators.required]],
     });
     this.seatsForm = this.formBuilder.group({
-      selectedSeats: ['', [Validators.required]]
+      selectedSeats: ['', [Validators.required]],
     });
     this.reservationForm = this.formBuilder.group({
-
+      userId: ['', [Validators.required]],
+      viewingId: ['', [Validators.required]],
+      selectedSeats: ['', [Validators.required]],
+    });
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+      this.formThree.userId.setValue(this.user?.id);
     });
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.movieService.getMovieById(+params['movieId']).subscribe((movie) => {
@@ -52,6 +67,7 @@ export class ReservationComponent implements OnInit {
         this.formOne.movieId.setValue(this.movie.id);
         this.updatePossibleDates();
         this.updatePossibleViewings();
+        this.updateSeats();
       });
     });
   }
@@ -68,12 +84,15 @@ export class ReservationComponent implements OnInit {
     return this.seatsForm.controls;
   }
 
+  get formThree() {
+    return this.reservationForm.controls;
+  }
+
   get today(): string {
     return new Date().toISOString().split('T')[0];
   }
 
   updatePossibleDates(): void {
-    this.formOne.date.setValue(null);
     this.possibleDates = [];
     this.movie?.viewings.forEach((viewing) => {
       if (!this.possibleDates.includes(viewing.date))
@@ -82,32 +101,71 @@ export class ReservationComponent implements OnInit {
   }
 
   updatePossibleViewings(): void {
-    this.formOne.viewingId.setValue(null);
-    this.possibleViewings = this.movie?.viewings.filter(
-      (viewing) => viewing.date === this.formOne.date.value
-    );
+    this.possibleViewings = [];
+    if (!!this.movie) {
+      this.possibleViewings = this.movie.viewings.filter(
+        (viewing) => viewing.date === this.formOne.viewingDate.value
+      );
+    }
   }
 
-  reserveSeat(seatIndex: number): void {
+  updateSeats(): void {
+    this.seats = [...Array(30)].map(() => {
+      return {
+        reserved: false,
+        selected: false,
+      };
+    });
+    this.viewing?.reservations?.forEach((reservation) => {
+      reservation.selectedSeats
+        .split(',')
+        .map(Number)
+        .forEach(
+          (selectedSeat) => (this.seats[selectedSeat - 1].reserved = true)
+        );
+    });
+  }
+
+  selectViewingDate(): void {
+    this.updatePossibleViewings();
+    this.updateSeats();
+  }
+
+  selectViewing(): void {
+    this.formThree.viewingId.setValue(null);
+    this.updateSeats();
+    this.viewingService.getViewingById(+this.formOne.viewingId.value).subscribe(viewing => {
+      this.viewing = viewing;
+      this.formThree.viewingId.setValue(this.viewing.id);
+      this.updateSeats();
+    });
+  }
+
+  selectSeat(seatIndex: number): void {
+    this.selectedSeats = '';
     this.formTwo.selectedSeats.setValue(null);
-    if (!this.seats[seatIndex].reserved) this.seats[seatIndex].selected = !this.seats[seatIndex].selected;
+    this.formThree.selectedSeats.setValue(null);
+    if (!this.seats[seatIndex].reserved)
+      this.seats[seatIndex].selected = !this.seats[seatIndex].selected;
     const selectedSeats: number[] = [];
     this.seats.forEach((seatValue, seatIndex) => {
-      if (!seatValue.reserved && seatValue.selected) selectedSeats.push(seatIndex);
+      if (!seatValue.reserved && seatValue.selected)
+        selectedSeats.push(seatIndex + 1);
     });
-    if (selectedSeats.length > 0 ) this.formTwo.selectedSeats.setValue(selectedSeats);
-    console.log(this.formTwo.selectedSeats.value);
+    if (selectedSeats.length > 0) {
+      this.selectedSeats = selectedSeats.toString();
+      this.formTwo.selectedSeats.setValue(this.selectedSeats);
+      this.formThree.selectedSeats.setValue(this.selectedSeats);
+    }
   }
 
-  onViewingFormSubmit() {
-    console.log(this.viewingForm.getRawValue());
-    // this.submitted = true;
-    // if (this.viewingForm.invalid) return;
-    // const movie: Movie = this.movieForm.getRawValue();
-    // if (!!this.id) movie.id = this.id;
-    // this.movieService.addMovie(movie).subscribe({
-    //   next: () => this.router.navigate(['/movies']),
-    //   error: (error) => console.log(error),
-    // });
+  onSubmit() {
+    if (this.reservationForm.invalid) return;
+    this.reservationService
+      .addReservation(this.reservationForm.getRawValue())
+      .subscribe({
+        next: () => this.router.navigate(['/movies']),
+        error: (error) => console.log(error),
+      });
   }
 }

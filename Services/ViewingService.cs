@@ -24,7 +24,11 @@ public class ViewingService : IViewingService
     public async Task<IEnumerable<Viewing>> GetViewings()
     {
         List<Viewing> viewings = await _context.Viewings.ToListAsync();
-        viewings.ForEach(viewing => viewing.Movie = _context.Movies.FirstOrDefault(movie => movie.Id == viewing.MovieId));
+        viewings.ForEach(viewing =>
+        {
+            viewing.Movie = _context.Movies.FirstOrDefault(movie => movie.Id == viewing.MovieId);
+            viewing.Reservations = _context.Reservations.Where(reservation => reservation.ViewingId == viewing.Id).ToList();
+        });
         return viewings;
     }
 
@@ -33,6 +37,7 @@ public class ViewingService : IViewingService
         Viewing viewing = await _context.Viewings.FirstOrDefaultAsync(viewing => viewing.Id == id);
         if (viewing == null) return null;
         viewing.Movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == viewing.MovieId);
+        viewing.Reservations = _context.Reservations.Where(reservation => reservation.ViewingId == viewing.Id).ToList();
         return viewing;
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { filter, map, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Movie } from 'src/app/models/movie.model';
 import { Viewing } from 'src/app/models/viewing.model';
 import { MovieService } from 'src/app/services/movie.service';
@@ -36,7 +36,7 @@ export class ViewingComponent implements OnInit {
     });
     this.movies$ = this.movieService.getMovies();
     this.routeSubscription = this.route.params.subscribe((params) => {
-      this.id = +params['id'];
+      this.id = +params['viewingId'];
       if (!!this.id)
         this.viewingService
           .getViewingById(this.id)
@@ -65,6 +65,7 @@ export class ViewingComponent implements OnInit {
         startTimes.push(hourString + ':' + minutesString + ':00');
       }
     }
+    startTimes.push('23:00:00');
     return startTimes;
   }
 

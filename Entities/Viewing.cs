@@ -15,4 +15,5 @@ public class Viewing
     [Required]
     public int MovieId { get; set; }
     public Movie? Movie { get; set; }
+    public List<Reservation>? Reservations { get; set; }
 }

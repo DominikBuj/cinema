@@ -7,7 +7,8 @@
             <h6 class="card-title">{{viewing.date | date:'longDate'}}</h6>
             <h6 class="card-title">{{viewing.startTime}} - {{viewing.endTime}}</h6>
             <div class="d-flex gap-2 mt-3">
-                <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id]">Modify</a>
+                <a class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id, 'reservations']">Reservations</a>
+                <a class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id]">Modify</a>
                 <button class="btn btn-primary flex-fill" (click)="deleteViewing(viewing.id)">Delete</button>
             </div>
         </div>

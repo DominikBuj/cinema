@@ -1,4 +1,6 @@
+using System.Configuration;
 using System.Text.Json.Serialization;
+using kino.Models;
 using kino.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,15 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var emailConfiguration = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+if (emailConfiguration != null) builder.Services.AddSingleton(emailConfiguration);
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=SuperUser1!;"));
+
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddControllersWithViews()
+
+builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IViewingService, ViewingService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 var app = builder.Build();
 

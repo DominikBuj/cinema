@@ -1,4 +1,6 @@
-<div class="container my-3 d-flex justify-content-center align-items-center"><a class="btn btn-primary" [routerLink]="['/movie', null]">Add Movie</a></div>
+<div class="container my-3 d-flex justify-content-center align-items-center">
+    <a *ngIf="user?.role === 'Admin'" class="btn btn-primary" [routerLink]="['/movie', null]">Add Movie</a>
+</div>
 <div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
     <div *ngFor="let movie of movies$ | async" class="card">
         <img class="card-img-top" [src]="movie.posterUrl" alt="movie poster image" width="300" height="300">
@@ -6,10 +8,12 @@
             <h4 class="card-title">{{movie.name}}</h4>
             <h6 class="card-title">{{movie.durationHours}} Hours {{movie.durationMinutes}} Minutes</h6>
             <p class="card-text">{{movie.description}}</p>
-            <div class="d-flex gap-2 mt-3">
-                <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/reservation', movie.id]">Reserve</a>
-                <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/movie', movie.id]">Modify</a>
-                <button class="btn btn-primary flex-fill" (click)="deleteMovie(movie.id)">Delete</button>
+            <div class="d-flex gap-2">
+                <a *ngIf="user?.role === 'User'" class="btn btn-primary flex-fill" [routerLink]="['/reservation', movie.id]">Reserve</a>
+                <ng-container *ngIf="user?.role === 'Admin'">
+                    <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/movie', movie.id]">Modify</a>
+                    <button class="btn btn-primary flex-fill" (click)="deleteMovie(movie.id)">Delete</button>
+                </ng-container>
             </div>
         </div>
     </div>

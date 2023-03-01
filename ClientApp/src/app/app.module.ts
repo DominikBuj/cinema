@@ -25,6 +25,7 @@ import { ViewingService } from './services/viewing.service';
 import { ReservationService } from './services/reservation.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ReservationsComponent } from './components/reservations/reservations.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MovieComponent,
     ViewingComponent,
     ReservationComponent,
+    ReservationsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,15 +54,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
-      { path: '', component: ViewingsComponent, pathMatch: 'full' },
-      { path: 'sign-in', component: SignInComponent },
-      { path: 'sign-up', component: SignUpComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: '', component: MoviesComponent, pathMatch: 'full' },
+      { path: 'user/sign-in', component: SignInComponent },
+      { path: 'user/sign-up', component: SignUpComponent },
+      { path: 'user/profile', component: ProfileComponent },
+      { path: 'user/reservations', component: ReservationsComponent },
       { path: 'movies', component: MoviesComponent },
-      { path: 'movie/:id', component: MovieComponent },
+      { path: 'movie/:movieId', component: MovieComponent },
       { path: 'viewings', component: ViewingsComponent },
-      { path: 'viewing/:id', component: ViewingComponent },
+      { path: 'viewing/:viewingId', component: ViewingComponent },
+      {
+        path: 'viewing/:viewingId/reservations',
+        component: ReservationsComponent,
+      },
       { path: 'reservation/:movieId', component: ReservationComponent },
+      { path: 'reservations', component: ReservationsComponent },
     ]),
   ],
   providers: [UserService, MovieService, ViewingService, ReservationService],

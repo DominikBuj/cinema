@@ -26,9 +26,9 @@ public class ViewingsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Viewing>> GetViewingById(int id)
     {
-        Viewing _viewing = await _viewingService.GetViewingById(id);
-        if (_viewing == null) return NotFound();
-        return Ok(_viewing);
+        Viewing viewing = await _viewingService.GetViewingById(id);
+        if (viewing == null) return NotFound();
+        return Ok(viewing);
     }
 
     [HttpPut]

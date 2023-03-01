@@ -34,7 +34,7 @@ export class MovieComponent implements OnInit, OnDestroy {
       durationMinutes: ['', [Validators.required]],
     });
     this.routeSubscription = this.route.params.subscribe((params) => {
-      this.id = +params['id'];
+      this.id = +params['movieId'];
       if (!!this.id)
         this.movieService
           .getMovieById(this.id)

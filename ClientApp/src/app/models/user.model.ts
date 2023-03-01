@@ -1,8 +1,10 @@
+import { Reservation } from "./reservation.model";
+
 export interface User {
     id: number;
     name: string;
     surname: string;
     email: string;
-    token: string;
     role: string;
+    reservations: Reservation[];
 }

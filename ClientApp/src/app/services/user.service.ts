@@ -55,7 +55,7 @@ export class UserService {
   signOut(): void {
     localStorage.removeItem('user');
     this.user.next(null);
-    this.router.navigate(['/sign-in']);
+    this.router.navigate(['/user/sign-in']);
   }
 
   updateUser(id: number, params: any): Observable<User> {

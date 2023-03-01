@@ -29,18 +29,24 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        List<User> users = await _context.Users.ToListAsync();
+        users.ForEach(user => user.Reservations = _context.Reservations.Where(reservation => reservation.UserId == user.Id).ToList());
+        return users;
     }
 
     public async Task<User> GetUserById(int id)
     {
-        return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        User user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        if (user == null) return null;
+        user.Reservations = _context.Reservations.Where(reservation => reservation.UserId == user.Id).ToList();
+        return user;
     }
 
     public async Task<User> SignIn(SignInRequest signInRequest)
     {
         User user = await _context.Users.SingleOrDefaultAsync(user => user.Email == signInRequest.Email);
         if (user == null || !BCrypt.Verify(signInRequest.Password, user.PasswordHash)) return null;
+        user.Reservations = _context.Reservations.Where(reservation => reservation.UserId == user.Id).ToList();
         return user;
     }
 

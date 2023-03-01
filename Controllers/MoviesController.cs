@@ -26,9 +26,9 @@ public class MoviesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Movie>> GetMovieById(int id)
     {
-        Movie _movie = await _movieService.GetMovieById(id);
-        if (_movie == null) return NotFound();
-        return Ok(_movie);
+        Movie movie = await _movieService.GetMovieById(id);
+        if (movie == null) return NotFound();
+        return Ok(movie);
     }
 
     [HttpPut]

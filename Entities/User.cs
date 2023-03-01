@@ -24,4 +24,5 @@ public class User
     [Required]
     [Column(TypeName = "varchar(32)")]
     public UserRole Role { get; set; }
+    public List<Reservation>? Reservations { get; set; }
 }

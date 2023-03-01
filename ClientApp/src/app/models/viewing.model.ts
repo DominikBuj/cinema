@@ -1,4 +1,5 @@
 import { Movie } from "./movie.model";
+import { Reservation } from "./reservation.model";
 
 export interface Viewing {
     id: number;
@@ -7,4 +8,5 @@ export interface Viewing {
     endTime: string;
     movieId: number;
     movie: Movie;
+    reservations: Reservation[];
 }

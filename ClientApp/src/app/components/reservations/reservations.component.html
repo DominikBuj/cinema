@@ -1,0 +1,27 @@
+<table *ngIf="!!reservations && reservations.length > 0; else noContent" class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Movie</th>
+            <th scope="col">Date</th>
+            <th scope="col">Start Time</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let reservation of reservations; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{reservation.user.email}}</td>
+            <td>{{reservation.viewing.movie?.name}}</td>
+            <td>{{reservation.viewing.date | date:'longDate'}}</td>
+            <td>{{reservation.viewing.startTime}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="cancelReservation(reservation.id)">Cancel</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<ng-template #noContent>
+    <h1 class="text-center">No Reservations</h1>
+</ng-template>

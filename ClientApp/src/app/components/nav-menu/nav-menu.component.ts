@@ -8,12 +8,12 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./nav-menu.component.css'],
 })
 export class NavMenuComponent implements OnInit {
-  public user: User | null = null;
+  user: User | null = null;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.user.subscribe(user => this.user = user);
+    this.userService.user.subscribe((user) => (this.user = user));
   }
 
   signOut(): void {

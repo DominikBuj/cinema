@@ -17,6 +17,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   id: number | null = null;
   movieForm!: FormGroup;
   submitted: boolean = false;
+  succeeded: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +58,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     if (!!this.id) movie.id = this.id;
     this.movieService.addMovie(movie).subscribe({
       next: () => this.router.navigate(['/movies']),
-      error: (error) => console.log(error),
+      error: () => (this.succeeded = false),
     });
   }
 }

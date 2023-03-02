@@ -13,8 +13,7 @@ var emailConfiguration = builder.Configuration
 if (emailConfiguration != null) builder.Services.AddSingleton(emailConfiguration);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    // options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=SuperUser1!;"));
-    options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=postgres;"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
 builder.Services.AddAutoMapper(typeof(Program));
 

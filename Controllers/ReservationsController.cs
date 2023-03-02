@@ -28,13 +28,6 @@ public class ReservationsController : ControllerBase
         return Ok(reservations);
     }
 
-    [HttpPost("test")]
-    public async void Test()
-    {
-        EmailMessage emailMessage = new EmailMessage(new List<string> { "dominik.bujnowicz2@gmail.com" }, "subject", "content");
-        await _emailService.SendEmail(emailMessage);
-    }
-
     [HttpGet("users/{userId}")]
     public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationsByUserId(int userId)
     {

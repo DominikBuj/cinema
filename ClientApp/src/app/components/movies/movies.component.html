@@ -1,4 +1,4 @@
-<div class="container my-3 d-flex justify-content-center align-items-center">
+<div class="d-grid my-3">
     <a *ngIf="user?.role === 'Admin'" class="btn btn-primary" [routerLink]="['/movie', null]">Add Movie</a>
 </div>
 <div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
@@ -8,9 +8,9 @@
             <h4 class="card-title">{{movie.name}}</h4>
             <h6 class="card-title">{{movie.durationHours}} Hours {{movie.durationMinutes}} Minutes</h6>
             <p class="card-text">{{movie.description}}</p>
-            <div class="d-flex gap-2">
-                <a *ngIf="user?.role === 'User'" class="btn btn-primary flex-fill" [routerLink]="['/reservation', movie.id]">Reserve</a>
-                <ng-container *ngIf="user?.role === 'Admin'">
+            <div *ngIf="!!user" class="d-flex gap-2">
+                <a *ngIf="user.role === 'User'" class="btn btn-primary flex-fill" [routerLink]="['/reservation', movie.id]">Reserve</a>
+                <ng-container *ngIf="user.role === 'Admin'">
                     <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/movie', movie.id]">Modify</a>
                     <button class="btn btn-primary flex-fill" (click)="deleteMovie(movie.id)">Delete</button>
                 </ng-container>

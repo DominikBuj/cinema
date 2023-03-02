@@ -14,6 +14,7 @@ import { ViewingService } from 'src/app/services/viewing.service';
 })
 export class ViewingComponent implements OnInit {
   movies$?: Observable<Movie[]>;
+  startTimes: string[] = [];
   routeSubscription!: Subscription;
   id: number | null = null;
   viewingForm!: FormGroup;
@@ -56,17 +57,11 @@ export class ViewingComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  get startTimes(): string[] {
-    let startTimes: string[] = [];
-    for (let hour = 8; hour < 23; ++hour) {
-      for (let minutes = 0; minutes < 60; minutes += 15) {
-        const hourString = hour < 10 ? '0' + hour : hour;
-        const minutesString = minutes < 10 ? '0' + minutes : minutes;
-        startTimes.push(hourString + ':' + minutesString + ':00');
-      }
-    }
-    startTimes.push('23:00:00');
-    return startTimes;
+  updateStartTimes(): void {
+    this.form.startTime.setValue(null);
+    this.form.endTime.setValue(null);
+    this.movieService.GetMoviePossibleStartTimes(this.form.movieId.value, this.form.date.value)
+      .subscribe(possibleStartTimes => this.startTimes = possibleStartTimes);
   }
 
   setEndTime(startTime: string): void {

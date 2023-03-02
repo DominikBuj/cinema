@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 public interface IViewingService
 {
     Task<IEnumerable<Viewing>> GetViewings();
+    Task<List<Viewing>> GetViewingsByDate(DateOnly date);
     Task<Viewing> GetViewingById(int id);
     Task<Viewing> AddViewing(Viewing viewing);
     Task<bool> DeleteViewingById(int id);
@@ -23,13 +24,19 @@ public class ViewingService : IViewingService
 
     public async Task<IEnumerable<Viewing>> GetViewings()
     {
-        List<Viewing> viewings = await _context.Viewings.ToListAsync();
+        DateTime now = DateTime.Now;
+        List<Viewing> viewings = await _context.Viewings.Where(viewing => viewing.Date.ToDateTime(viewing.StartTime) >= now).ToListAsync();
         viewings.ForEach(viewing =>
         {
             viewing.Movie = _context.Movies.FirstOrDefault(movie => movie.Id == viewing.MovieId);
             viewing.Reservations = _context.Reservations.Where(reservation => reservation.ViewingId == viewing.Id).ToList();
         });
         return viewings;
+    }
+
+    public async Task<List<Viewing>> GetViewingsByDate(DateOnly date)
+    {
+        return await _context.Viewings.Where(viewing => viewing.Date == date).ToListAsync();
     }
 
     public async Task<Viewing> GetViewingById(int id)

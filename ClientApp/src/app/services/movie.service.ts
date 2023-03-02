@@ -21,6 +21,10 @@ export class MovieService {
     return this.http.get<Movie>(`${this.baseUrl}/${id}`);
   }
 
+  GetMoviePossibleStartTimes(id: number, viewingDate: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/${id}/${viewingDate}/possibleStartTimes`);
+  }
+
   addMovie(movie: Movie): Observable<Movie> {
     return this.http.put<Movie>(`${this.baseUrl}`, movie);
   }

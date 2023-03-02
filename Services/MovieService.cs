@@ -24,7 +24,9 @@ public class MovieService : IMovieService
     public async Task<IEnumerable<Movie>> GetMovies()
     {
         List<Movie> movies = await _context.Movies.ToListAsync();
-        movies.ForEach(movie => movie.Viewings = _context.Viewings.Where(viewing => viewing.MovieId == movie.Id).ToList());
+        DateTime now = DateTime.Now;
+        movies.ForEach(movie => movie.Viewings = _context.Viewings
+            .Where(viewing => (viewing.MovieId == movie.Id && viewing.Date.ToDateTime(viewing.StartTime) >= now)).ToList());
         return movies;
     }
 
@@ -32,7 +34,9 @@ public class MovieService : IMovieService
     {
         Movie movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
         if (movie == null) return null;
-        movie.Viewings = _context.Viewings.Where(viewing => viewing.MovieId == movie.Id).ToList();
+        DateTime now = DateTime.Now;
+        movie.Viewings = _context.Viewings
+            .Where(viewing => (viewing.MovieId == movie.Id && viewing.Date.ToDateTime(viewing.StartTime) >= now)).ToList();
         return movie;
     }
 

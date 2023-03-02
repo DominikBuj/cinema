@@ -40,14 +40,16 @@ public class EmailService : IEmailService
         {
             try
             {
+                client.CheckCertificateRevocation = false;
                 await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
                 await client.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
                 await client.SendAsync(emailMessage);
             }
-            catch
+            catch (Exception e)
             {
-                throw;
+                Console.WriteLine("Encountered exception when sending Email!");
+                Console.WriteLine(e.ToString());
             }
             finally
             {

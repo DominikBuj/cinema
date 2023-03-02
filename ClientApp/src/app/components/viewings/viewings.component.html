@@ -1,18 +1,25 @@
 <div class="d-grid my-3">
-    <a class="btn btn-primary" [routerLink]="['/viewing', null]">Add Viewing</a>
+    <a class="btn btn-success" [routerLink]="['/viewing', null]">Add Viewing</a>
 </div>
-<div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
-    <div *ngFor="let viewing of this.viewings$ | async" class="card">
-        <img class="card-img-top" [src]="viewing.movie.posterUrl" alt="movie poster image" width="300" height="300">
-        <div class="card-body">
-            <h4 class="card-title">{{viewing.movie.name}}</h4>
-            <h6 class="card-title">{{viewing.date | date:'longDate'}}</h6>
-            <h6 class="card-title">{{viewing.startTime}} - {{viewing.endTime}}</h6>
-            <div class="d-flex gap-2 mt-3">
-                <a class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id, 'reservations']">Reservations</a>
-                <a class="btn btn-primary flex-fill" [routerLink]="['/viewing', viewing.id]">Modify</a>
-                <button class="btn btn-primary flex-fill" (click)="deleteViewing(viewing.id)">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Movie</th>
+            <th scope="col">Date</th>
+            <th scope="col">Duration</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let viewing of this.viewings$ | async; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{viewing.movie.name}}</td>
+            <td>{{viewing.date | date:'longDate'}}</td>
+            <td>{{viewing.startTime}} - {{viewing.endTime}}</td>
+            <td><a class="btn btn-primary" [routerLink]="['/viewing', viewing.id, 'reservations']">Reservations</a></td>
+            <td><button class="btn btn-danger" (click)="deleteViewing(viewing.id)">Delete</button></td>
+        </tr>
+    </tbody>
+</table>

@@ -12,12 +12,12 @@
     <div class="flex-fill"></div>
     <div *ngIf="!!user; else notSignedIn">
       <a *ngIf="user.role === 'User'" class="btn btn-primary" [routerLink]="['/user/reservations']">My Reservations</a>
-      <a class="btn btn-primary mx-2" [routerLink]="['/user/profile']">Profile</a>
-      <a class="btn btn-primary" (click)="signOut()">Sign out</a>
+      <a class="btn btn-primary mx-2" style="width: 86px;" [routerLink]="['/user/profile']">Profile</a>
+      <a class="btn btn-danger" style="width: 86px;" (click)="signOut()">Sign out</a>
     </div>
     <ng-template #notSignedIn>
-      <a class="btn btn-primary" [routerLink]="['/user/sign-in']">Sign in</a>
-      <a class="btn btn-primary" [routerLink]="['/user/sign-up']">Sign up</a>
+      <a class="btn btn-success" style="width: 86px;" [routerLink]="['/user/sign-in']">Sign in</a>
+      <a class="btn btn-primary" style="width: 86px;" [routerLink]="['/user/sign-up']">Sign up</a>
     </ng-template>
   </nav>
 </header>

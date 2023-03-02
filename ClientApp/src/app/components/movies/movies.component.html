@@ -1,18 +1,18 @@
 <div class="d-grid my-3">
-    <a *ngIf="user?.role === 'Admin'" class="btn btn-primary" [routerLink]="['/movie', null]">Add Movie</a>
+    <a *ngIf="user?.role === 'Admin'" class="btn btn-success" [routerLink]="['/movie', null]">Add Movie</a>
 </div>
-<div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
-    <div *ngFor="let movie of movies$ | async" class="card">
+<div class="d-grid gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+    <div *ngFor="let movie of movies$ | async" class="card bg-secondary">
         <img class="card-img-top" [src]="movie.posterUrl" alt="movie poster image" width="300" height="300">
-        <div class="card-body">
+        <div class="card-body d-flex flex-column">
             <h4 class="card-title">{{movie.name}}</h4>
             <h6 class="card-title">{{movie.durationHours}} Hours {{movie.durationMinutes}} Minutes</h6>
-            <p class="card-text">{{movie.description}}</p>
+            <p class="card-text flex-fill">{{movie.description}}</p>
             <div *ngIf="!!user" class="d-flex gap-2">
                 <a *ngIf="user.role === 'User'" class="btn btn-primary flex-fill" [routerLink]="['/reservation', movie.id]">Reserve</a>
                 <ng-container *ngIf="user.role === 'Admin'">
                     <a href="#" class="btn btn-primary flex-fill" [routerLink]="['/movie', movie.id]">Modify</a>
-                    <button class="btn btn-primary flex-fill" (click)="deleteMovie(movie.id)">Delete</button>
+                    <button class="btn btn-danger flex-fill" (click)="deleteMovie(movie.id)">Delete</button>
                 </ng-container>
             </div>
         </div>

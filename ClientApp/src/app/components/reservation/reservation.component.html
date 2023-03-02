@@ -1,6 +1,6 @@
-<mat-stepper style="height: 95%;" linear #stepper>
+<mat-stepper style="height: calc(100% - 64px); margin: 32px auto;" linear #stepper>
     <mat-step [stepControl]="viewingForm" label="Viewing">
-        <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="viewingForm">
+        <form class="content-container form-container" [formGroup]="viewingForm">
             <div class="form-group">
                 <label for="movieId">Movie</label>
                 <input id="movieId" type="hidden" formControlName="movieId" class="form-control"/>
@@ -21,7 +21,7 @@
         </form>
     </mat-step>
     <mat-step [stepControl]="seatsForm" label="Seats">
-        <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="seatsForm">
+        <form class="content-container form-container" [formGroup]="seatsForm">
             <div class="d-grid gap-2 mb-4" style="grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(5, 1fr);">
                 <button type="button" *ngFor="let seat of seats; let i = index" class="btn" [attr.aria-pressed]="!!seat.selected"
                 [ngClass]="[seats[i].reserved ? 'btn-outline-danger' : 'btn-outline-success', seats[i].selected ? 'active' : '']"
@@ -42,7 +42,7 @@
         </form>
     </mat-step>
     <mat-step [stepControl]="reservationForm" label="Summary">
-        <form class="container d-flex flex-column gap-2" style="max-width: 720px;" [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+        <form class="content-container form-container" [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="movie">Movie</label>
                 <input id="movie" type="text" class="form-control text-muted" [value]="movie?.name" disabled/>
@@ -59,7 +59,7 @@
                 <label for="seats">Seats</label>
                 <input id="seats" type="text" class="form-control text-muted" [value]="selectedSeats" disabled/>
             </div>
-            <div class="form-group d-grid mt-2">
+            <div class="form-group d-grid mt-3">
                 <button type="submit" class="btn btn-primary">Reserve</button>
             </div>
         </form>

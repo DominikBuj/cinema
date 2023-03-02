@@ -6,7 +6,7 @@ using MimeKit;
 
 public interface IEmailService
 {
-    void SendEmail(EmailMessage emailMessage);
+    Task SendEmail(EmailMessage emailMessage);
 }
 
 public class EmailService : IEmailService
@@ -18,10 +18,10 @@ public class EmailService : IEmailService
         _emailConfiguration = emailConfiguration;
     }
 
-    public void SendEmail(EmailMessage emailMessage)
+    public async Task SendEmail(EmailMessage emailMessage)
     {
         MimeMessage _emailMessage = CreateEmailMessage(emailMessage);
-        Send(_emailMessage);
+        await Send(_emailMessage);
     }
 
     private MimeMessage CreateEmailMessage(EmailMessage emailMessage)
@@ -34,16 +34,16 @@ public class EmailService : IEmailService
         return _emailMessage;
     }
 
-    private void Send(MimeMessage emailMessage)
+    private async Task Send(MimeMessage emailMessage)
     {
         using (SmtpClient client = new SmtpClient())
         {
             try
             {
-                client.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(_emailConfiguration.UserName, _emailConfiguration.Password);
-                client.Send(emailMessage);
+                await client.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
+                await client.SendAsync(emailMessage);
             }
             catch
             {
@@ -51,7 +51,7 @@ public class EmailService : IEmailService
             }
             finally
             {
-                client.Disconnect(true);
+                await client.DisconnectAsync(true);
                 client.Dispose();
             }
         }

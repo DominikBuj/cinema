@@ -11,7 +11,7 @@ public class EmailMessage
     public EmailMessage(IEnumerable<string> to, string subject, string content)
     {
         To = new List<MailboxAddress>();
-        To.AddRange(to.Select(address => new MailboxAddress("Email", address)));
+        To.AddRange(to.Select(address => new MailboxAddress("Fake Cinema", address)));
         Subject = subject;
         Content = content;
     }

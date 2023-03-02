@@ -18,3 +18,16 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.content-container {
+  margin: 32px auto;
+  height: calc(100% - 64px);
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container {
+  max-width: 720px;
+  gap: 0.5rem;
+}

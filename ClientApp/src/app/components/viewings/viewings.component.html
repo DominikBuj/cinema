@@ -1,4 +1,6 @@
-<div class="container my-3 d-flex justify-content-center align-items-center"><a class="btn btn-primary" [routerLink]="['/viewing', null]">Add Viewing</a></div>
+<div class="container my-3 d-flex justify-content-center align-items-center">
+    <a class="btn btn-primary" [routerLink]="['/viewing', null]">Add Viewing</a>
+</div>
 <div class="d-grid text-black gap-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
     <div *ngFor="let viewing of this.viewings$ | async" class="card">
         <img class="card-img-top" [src]="viewing.movie.posterUrl" alt="movie poster image" width="300" height="300">

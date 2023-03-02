@@ -1,4 +1,3 @@
-using System.Configuration;
 using System.Text.Json.Serialization;
 using kino.Models;
 using kino.Services;
@@ -14,7 +13,8 @@ var emailConfiguration = builder.Configuration
 if (emailConfiguration != null) builder.Services.AddSingleton(emailConfiguration);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=SuperUser1!;"));
+    // options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=SuperUser1!;"));
+    options.UseNpgsql("Server=127.0.0.1; Port=5432; Database=kino; Userid=postgres; Password=postgres;"));
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -26,6 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IViewingService, ViewingService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

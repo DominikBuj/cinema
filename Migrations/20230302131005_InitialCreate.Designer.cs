@@ -12,8 +12,8 @@ using kino.Services;
 namespace kino.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230301193925_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230302131005_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

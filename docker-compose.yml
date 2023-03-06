@@ -1,16 +1,23 @@
+volumes:
+  database:
+
 services:
   database:
     build: ./database
     container_name: database
     ports:
       - "5433:5432"
+  
   backend:
     build: ./backend
     container_name: backend
     ports:
       - "5000:5000"
+  
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
       - "80:80"
+    volumes:
+      - database:/var/lib/postgresql/data

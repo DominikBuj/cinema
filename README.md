@@ -1,4 +1,4 @@
-# Aplikacja Rozgrzewkowa - Kino
+# Warmup App - Cinema
 
 ## Description
 Website for managing movies, viewings and reservations for a small cinema.
